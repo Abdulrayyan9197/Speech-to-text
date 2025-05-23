@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speech-to-Text Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Speech to Text </h1>
+  
+  <button onclick="startRecognition()">🎤 Start Speaking</button>
+  
+  <div id="output"><Transcript>Transcript....</Transcript></div>
+
+  <script>
+    function startRecognition() {
+      const output = document.getElementById('output');
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        output.innerText = transcript;
+      };
+
+      recognition.onerror = function(event) {
+        output.innerText = 'Error occurred: ' + event.error;
+      };
+    }
+  </script>
+</body>
+</html>
